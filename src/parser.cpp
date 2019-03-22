@@ -1,17 +1,48 @@
 #include "parser.h"
 #include "error.h"
 
-Parser::Parser(std::istream &is ):mSubmission(is){}//since streams cannot be assigned we use initialiser list here
-std::string Parser:: NextWord()
+Parser::Parser(std::istream &is ):mSubmission(is),mLineNo(0){}//since streams cannot be assigned we use initialiser list here
+unsigned int Parser:: LineNo() const
 {
-  std::string word;
-  if(mSubmission>>word)
+  return mLineNo;
+}
+std::string Parser :: Context() const
+{
+  return mLine;
+}
+bool Parser:: ReadLine()
+{
+  if(getline(mSubmission,mLine))
   {
-    return word;
+    mIs.clear();
+    mIs.str(mLine);
+    mLineNo++;
+    return true;
   }
   else if(mSubmission.eof())
   {
-    return "";
+    return false;
+  }
+  else
+    throw ScheckError("Errror in reading stream");
+}
+std::string Parser:: NextWord()
+{
+  std::string word;
+  if(mIs>>word)
+  {
+    return word;
+  }
+  else if(mIs.eof())
+  {
+    if(ReadLine())
+    {
+      return NextWord();
+    }
+    else
+    {
+      return "";
+    }
   }
   else
   {

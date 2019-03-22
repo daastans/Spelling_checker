@@ -26,7 +26,7 @@ int main()
       }
       else
       {
-        std::cout<<word<<" is Not present in Dictionary!"<<std::endl;
+        std::cout<<word<<" is Not present in Dictionary! at "<<p.LineNo()<<std::endl;
       }
 
     }

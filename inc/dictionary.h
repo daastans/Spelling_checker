@@ -1,4 +1,5 @@
 #include<string>
+
 #include<set>
 #include <fstream>
 #include"error.h"
@@ -35,3 +36,4 @@ public:
     return mWords.find(word)!=mWords.end();
   };
 };
+

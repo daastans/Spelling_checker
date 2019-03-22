@@ -3,11 +3,16 @@
 
 #include <string>
 #include <iostream>
+#include<sstream>
 
 class Parser
 {
 private:
   std::istream &mSubmission;//reference is needed since stream  objects cannot be copied
+  bool ReadLine();
+  std::istringstream mIs;
+  unsigned int mLineNo;
+  std::string mLine;
 public:
   Parser(std::istream &is);
   std::string NextWord();

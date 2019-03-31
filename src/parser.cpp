@@ -56,6 +56,7 @@ std::string Parser:: NextWord()
       mState=stInSpace;
       return word;
     }
+    break;
     case stInNum:
     if(isalnum(c)||c=='\'')
     {

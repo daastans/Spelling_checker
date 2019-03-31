@@ -8,12 +8,16 @@
 class Parser
 {
 private:
+  char NextChar();
+  enum State {stInSpace , stInWord, stInNum };
+  State mState;
   std::istream &mSubmission;//reference is needed since stream  objects cannot be copied
   bool ReadLine();
   std::istringstream mIs;
-  unsigned int mLineNo;
+  unsigned int mLineNo,mPos;
   std::string mLine;
 public:
+
   Parser(std::istream &is);
   std::string NextWord();
   unsigned int LineNo() const;

@@ -1,4 +1,4 @@
-#ifndef INC_REPROTER_H
+#ifndef INC_REPORTER_H
 #define INC_REPORTER_H
 #include<string>
 #include<ostream>

@@ -4,8 +4,9 @@
 #include "parser.h"
 #include "error.h"
 #include "csvreporter.h"
+#include "xmlreporter.h"
 
-int main()
+int main(int argc,char *argv[])
 {
   try
   {
@@ -16,10 +17,18 @@ int main()
       throw ScheckError("could not open data/test.txt");
     }
     Parser p(sub);
-    CSVReporter rep(std::cout);
+    Reporter* rep=0;
+    if(argc==1)
+    {
+      rep=new CSVReporter(std::cout);
+    }
+    else
+    {
+      rep=new XMLReporter(std::cout);
+    }
 
     Dictionary d("data/mydict.dat");
-    rep.ReportHeader();
+    rep->ReportHeader();
 
     std::string word="dog";
     while ((word=p.NextWord())!="") {
@@ -30,11 +39,12 @@ int main()
       else
       {
         //std::cout<<word<<" is Not present in Dictionary! at "<<p.LineNo()<<std::endl;
-        rep.ReporterError(word,p.Context(),p.LineNo(),"data/test.txt");
+        rep->ReporterError(word,p.Context(),p.LineNo(),"data/test.txt");
       }
 
     }
-    rep.ReportFooter();
+    rep->ReportFooter();
+    delete rep;//since it is dynamically created its memory management is in our hands
   }
   catch (const ScheckError &e )
   {

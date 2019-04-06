@@ -8,7 +8,8 @@ unsigned int Parser:: LineNo() const
 }
 std::string Parser :: Context() const
 {
-  return mLine;
+  //return mLine;
+  return mLine.substr(0,mLine.size()-1);
 }
 
 bool Parser::ReadLine() {

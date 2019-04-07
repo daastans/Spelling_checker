@@ -19,7 +19,7 @@ int main(int argc,char *argv[])
     }
     Parser p(sub);
     //Reporter* rep=0;
-    SmartPointer rep(new CSVReporter(std::cout));
+    SmartPointer <Reporter>rep(new XMLReporter(std::cout));
     if(argc==1)
     {
       //SmartPointer rep(new CSVReporter(std::cout));

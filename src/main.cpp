@@ -5,6 +5,7 @@
 #include "error.h"
 #include "csvreporter.h"
 #include "xmlreporter.h"
+#include "smartpointer.h"
 
 int main(int argc,char *argv[])
 {
@@ -17,14 +18,15 @@ int main(int argc,char *argv[])
       throw ScheckError("could not open data/test.txt");
     }
     Parser p(sub);
-    Reporter* rep=0;
+    //Reporter* rep=0;
+    SmartPointer rep(new CSVReporter(std::cout));
     if(argc==1)
     {
-      rep=new CSVReporter(std::cout);
+      //SmartPointer rep(new CSVReporter(std::cout));
     }
     else
     {
-      rep=new XMLReporter(std::cout);
+      //SmartPointer rep(new XMLReporter(std::cout));
     }
 
     Dictionary d("data/mydict.dat");
@@ -44,7 +46,7 @@ int main(int argc,char *argv[])
 
     }
     rep->ReportFooter();
-    delete rep;//since it is dynamically created its memory management is in our hands
+    //delete rep;//since it is dynamically created its memory management is in our hands
   }
   catch (const ScheckError &e )
   {

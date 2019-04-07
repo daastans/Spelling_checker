@@ -3,14 +3,15 @@
 #ifndef INC_SMARTPOINTER_H
 #define INC_SMARTPOINTER_H
 #include "reporter.h"
+template <typename T>
 class SmartPointer
 {
 public:
-  SmartPointer(Reporter* rep):mPointer(rep){}
-  Reporter* operator ->(){return mPointer;}
+  SmartPointer(T* rep):mPointer(rep){}
+  T* operator ->(){return mPointer;}
   ~SmartPointer(){delete mPointer;}
 private:
-  Reporter* mPointer;
+  T* mPointer;
 
 };
 #endif

@@ -1,11 +1,12 @@
 #include<iostream>
 #include<string>
+#include<memory>
 #include "dictionary.h"
 #include "parser.h"
 #include "error.h"
 #include "csvreporter.h"
 #include "xmlreporter.h"
-#include "smartpointer.h"
+
 
 int main(int argc,char *argv[])
 {
@@ -19,14 +20,14 @@ int main(int argc,char *argv[])
     }
     Parser p(sub);
     //Reporter* rep=0;
-    SmartPointer <Reporter>rep(new XMLReporter(std::cout));
+    std::unique_ptr <Reporter>rep;
     if(argc==1)
     {
-      //SmartPointer rep(new CSVReporter(std::cout));
+      rep=std::unique_ptr<Reporter>(new CSVReporter(std::cout));
     }
     else
     {
-      //SmartPointer rep(new XMLReporter(std::cout));
+      rep=std::unique_ptr<Reporter>(new XMLReporter(std::cout));
     }
 
     Dictionary d("data/mydict.dat");

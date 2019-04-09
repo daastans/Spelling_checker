@@ -6,12 +6,13 @@
 #include "error.h"
 #include "csvreporter.h"
 #include "xmlreporter.h"
-
+#include "commandline.h"
 
 int main(int argc,char *argv[])
 {
   try
   {
+    std::string dict;
     std::cout<<"scheck v1.0"<<std::endl;
     std::ifstream sub("data/test.txt");
     if(!sub.is_open())
@@ -20,17 +21,25 @@ int main(int argc,char *argv[])
     }
     Parser p(sub);
     //Reporter* rep=0;
-    std::unique_ptr <Reporter>rep;
-    if(argc==1)
+    CommandLine cmdl(argc,argv);
+
+    if(!cmdl.ExtractOptions("-d",dict));
     {
-      rep=std::unique_ptr<Reporter>(new CSVReporter(std::cout));
+      dict="data/mydict.dat";
     }
-    else
+    
+    std::unique_ptr <Reporter>rep;
+    if(cmdl.ExtractOptions("-xml"))
     {
       rep=std::unique_ptr<Reporter>(new XMLReporter(std::cout));
     }
 
-    Dictionary d("data/mydict.dat");
+    else
+    {
+      rep=std::unique_ptr<Reporter>(new CSVReporter(std::cout));
+    }
+
+    Dictionary d(dict);
     rep->ReportHeader();
 
     std::string word="dog";
@@ -56,7 +65,7 @@ int main(int argc,char *argv[])
   }
   catch(...)
   {
-    std::cerr<<"Error: unknown exception"<<std::endl;
+    std::cerr<<"Error: unknown exception "<<std::endl;
     return 2;
   }
 

@@ -18,7 +18,7 @@ Reporter* MakeReporter(Settings::Report rt)
   else
     throw ScheckError("Invalid Report Type\n");
 }
-void CheckSubmission(const Dictionary& dict,std::ifstream& sub,const std::string & subname ,Reporter& rep)
+void CheckSubmission(const Dictionary& dict,std::istream& sub,const std::string & subname ,Reporter& rep)
 {
   Parser p(sub);
   std::string word;
@@ -37,18 +37,26 @@ int main(int argc,char *argv[])
     std::string dict;
     std::string filename="data/text.txt";
     std::cout<<"scheck v1.0"<<std::endl;
-    std::ifstream sub("data/test.txt");
-    if(!sub.is_open())
-    {
-      throw ScheckError("could not open data/test.txt");
-    }
-    Parser p(sub);
+        
     CommandLine cmdl(argc,argv);
     Settings s(cmdl);
 
     std::unique_ptr <Reporter>rep(MakeReporter(s.ReportType()));
     Dictionary d(s.DictName());
-    CheckSubmission(d,sub,filename,*rep);
+    if(cmdl.Argc()==1)
+    {
+      CheckSubmission(d,std::cin,"stdin",*rep);
+    }
+    else
+    for(int i=1;i<cmdl.Argc();i++)
+    {
+      filename=cmdl.Argv(i).c_str();
+      std::ifstream sub(filename);
+      if(!sub.is_open()) throw ScheckError("Unbale to open file "+filename);
+      else
+      CheckSubmission(d,sub,filename,*rep);
+    }
+
 
 
 

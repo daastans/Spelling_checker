@@ -16,8 +16,8 @@ Settings::Settings(CommandLine& cmdl):mReportType(inCSV),mDictName(DEF_DICT)
   if(cmdl.ExtractOptions(XML_OPT))
     mReportType=inXML;
   cmdl.ExtractOptions(DICT_OPT,mDictName);
-  if(cmdl.MoreOptions())
-    throw ScheckError("Invalid command line\n");
+  //if(cmdl.MoreOptions())
+    //throw ScheckError("Invalid command line\n");
 }
 Settings::Report Settings::ReportType() const {return mReportType;}
 std::string Settings::DictName() const {return mDictName;}
